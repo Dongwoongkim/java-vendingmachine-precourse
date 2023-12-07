@@ -1,7 +1,14 @@
 package vendingmachine.model.vo;
 
+import vendingmachine.exception.AmountLessThanMinAmountException;
+import vendingmachine.exception.EmptyInputException;
+import vendingmachine.exception.IndivisibleException;
+import vendingmachine.exception.NonNumericInputException;
+
 public class Amount {
 
+    private static final Integer MIN_AMOUNT = 100;
+    private static final Integer MIN_COIN_AMOUNT = 10;
     private final Integer amount;
 
     private Amount(Integer amount) {
@@ -15,21 +22,21 @@ public class Amount {
 
     private static void validate(String amount) {
         if (amount.isEmpty()) {
-            throw new IllegalArgumentException();
+            throw new EmptyInputException();
         }
         if (!isNumeric(amount)) {
-            throw new IllegalArgumentException();
+            throw new NonNumericInputException();
         }
         if (!isOverMinAmount(Integer.valueOf(amount))) {
-            throw new IllegalArgumentException();
+            throw new AmountLessThanMinAmountException(MIN_AMOUNT);
         }
-        if (!isDivisibleBy10(Integer.valueOf(amount))) {
-            throw new IllegalArgumentException();
+        if (!isDivisibleByMinCoin(Integer.valueOf(amount))) {
+            throw new IndivisibleException(MIN_COIN_AMOUNT);
         }
     }
 
     private static boolean isOverMinAmount(Integer amount) {
-        if (amount >= 100) {
+        if (amount >= MIN_AMOUNT) {
             return true;
         }
         return false;
@@ -44,8 +51,8 @@ public class Amount {
         }
     }
 
-    public static boolean isDivisibleBy10(int amount) {
-        return amount % 10 == 0;
+    public static boolean isDivisibleByMinCoin(int amount) {
+        return amount % MIN_COIN_AMOUNT == 0;
     }
 
     public Integer getAmount() {

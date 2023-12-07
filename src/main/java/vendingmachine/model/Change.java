@@ -1,5 +1,6 @@
 package vendingmachine.model;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Change {
@@ -17,5 +18,16 @@ public class Change {
 
     public Map<Coin, Integer> getCoins() {
         return coins;
+    }
+
+    public Map<Coin, Integer> makeChangeInfo(Integer insertMoney) {
+        Map<Coin, Integer> changeInfo = new HashMap<>();
+        for (Coin coin : Coin.values()) {
+            if (coins.get(coin) != 0 && (coins.get(coin) * coin.getAmount()) < insertMoney) {
+                changeInfo.put(coin, coins.get(coin));
+            }
+            insertMoney -= (coins.get(coin) * coin.getAmount());
+        }
+        return changeInfo;
     }
 }

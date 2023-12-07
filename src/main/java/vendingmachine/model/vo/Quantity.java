@@ -1,5 +1,9 @@
 package vendingmachine.model.vo;
 
+import vendingmachine.exception.EmptyInputException;
+import vendingmachine.exception.LessThanZeroQuantityException;
+import vendingmachine.exception.NonNumericInputException;
+
 public class Quantity {
 
     private Integer quantity;
@@ -15,13 +19,13 @@ public class Quantity {
 
     private static void validate(String quantity) {
         if (quantity.isEmpty()) {
-            throw new IllegalArgumentException();
+            throw new EmptyInputException();
         }
         if (!isNumeric(quantity)) {
-            throw new IllegalArgumentException();
+            throw new NonNumericInputException();
         }
         if (!isOverZero(quantity)) {
-            throw new IllegalArgumentException();
+            throw new LessThanZeroQuantityException();
         }
     }
 

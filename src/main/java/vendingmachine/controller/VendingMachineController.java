@@ -13,38 +13,45 @@ import vendingmachine.util.StringUtil;
 import vendingmachine.view.InputView;
 import vendingmachine.view.OutputView;
 
-public class VedingMachineController {
+public class VendingMachineController {
 
     private final InputView inputView;
     private final OutputView outputView;
 
-    public VedingMachineController(InputView inputView, OutputView outputView) {
+    public VendingMachineController(InputView inputView, OutputView outputView) {
         this.inputView = inputView;
         this.outputView = outputView;
     }
 
     public void run() {
         Change change = initChange();
-        outputView.printVendingMachineCoin(change.getCoins());
-        
+        showChangeCoins(change);
         Items items = initItems();
         Money insertMoney = initInsertMoney();
+        purchaseItem(insertMoney, items, change);
+    }
 
+    private void purchaseItem(Money insertMoney, Items items, Change change) {
         while (true) {
             showInsertMoney(insertMoney);
-            Item item = initBuyItem(items);
-
             if (insertMoney.isLessThanAmount(items.getLowestAmount()) || !items.isPurchaseAble()) {
-                showInsertMoney(insertMoney);
-                // TODO : 잔돈 출력
+                outputView.printVendingMachineHasChange(change.makeChangeInfo(insertMoney.getAmount()));
                 break;
             }
-
-            if (item.isPurchaseAble()) {
-                item.purchase();
-                insertMoney.decrease(item.getAmount());
-            }
+            Item item = initBuyItem(items);
+            buyItem(insertMoney, item);
         }
+    }
+
+    private static void buyItem(Money insertMoney, Item item) {
+        if (item.isPurchaseAble()) {
+            item.purchase();
+            insertMoney.decrease(item.getAmount());
+        }
+    }
+
+    private void showChangeCoins(Change change) {
+        outputView.printVendingMachineCoin(change.getCoins());
     }
 
     private void showInsertMoney(Money insertMoney) {

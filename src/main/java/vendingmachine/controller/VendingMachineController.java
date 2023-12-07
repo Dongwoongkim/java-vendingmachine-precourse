@@ -38,7 +38,6 @@ public class VendingMachineController {
                 outputView.printVendingMachineHasChange(change.makeChangeInfo(insertMoney.getAmount()));
                 break;
             }
-
             Item item = initBuyItem(items);
             buyItem(insertMoney, item);
         }

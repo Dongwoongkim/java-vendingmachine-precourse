@@ -36,8 +36,8 @@ public class Change {
     public Map<Coin, Integer> makeChangeInfo(Integer insertMoney) {
         Map<Coin, Integer> changeInfo = new HashMap<>();
         for (Coin coin : Coin.values()) {
-            if (coins.get(coin) != 0 && (coins.get(coin) * coin.getAmount()) < insertMoney) {
-                changeInfo.put(coin, coins.get(coin));
+            if (coins.get(coin) != 0 && (coins.get(coin)) <= insertMoney) {
+                changeInfo.put(coin, insertMoney / coin.getAmount());
             }
             insertMoney -= (coins.get(coin) * coin.getAmount());
         }

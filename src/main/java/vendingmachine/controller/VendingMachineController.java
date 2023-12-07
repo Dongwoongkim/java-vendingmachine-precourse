@@ -38,13 +38,14 @@ public class VendingMachineController {
                 outputView.printVendingMachineHasChange(change.makeChangeInfo(insertMoney.getAmount()));
                 break;
             }
+
             Item item = initBuyItem(items);
             buyItem(insertMoney, item);
         }
     }
 
-    private static void buyItem(Money insertMoney, Item item) {
-        if (item.isPurchaseAble()) {
+    private void buyItem(Money insertMoney, Item item) {
+        if (item.isRemain() && !insertMoney.isLessThanAmount(item.getAmount())) {
             item.purchase();
             insertMoney.decrease(item.getAmount());
         }
@@ -115,7 +116,10 @@ public class VendingMachineController {
                     InputValidator.validateItemInfo(item);
                     return itemInfo;
                 })
-                .map(itemInfo -> Item.create(itemInfo.get(0), itemInfo.get(1), itemInfo.get(2)))
+                .map(itemInfo -> {
+                    InputValidator.validateItemInfoList(itemInfo);
+                    return Item.create(itemInfo.get(0), itemInfo.get(1), itemInfo.get(2));
+                })
                 .collect(Collectors.toList()));
     }
 }

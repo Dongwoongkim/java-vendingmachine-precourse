@@ -20,7 +20,7 @@ public class Item {
         return new Item(Name.create(name), Amount.create(amount), Quantity.create(quantity));
     }
 
-    public boolean isPurchaseAble() {
+    public boolean isRemain() {
         return quantity.getQuantity() > 0;
     }
 

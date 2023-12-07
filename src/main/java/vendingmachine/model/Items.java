@@ -1,6 +1,7 @@
 package vendingmachine.model;
 
 import java.util.List;
+import vendingmachine.exception.NonExistInVendingMachineException;
 import vendingmachine.model.vo.Name;
 
 public class Items {
@@ -14,28 +15,21 @@ public class Items {
     public Item getBuyItem(Name buyItemName) {
         for (Item item : items) {
             String name = item.getName();
-            if (name.equals(buyItemName.getName()) && item.isPurchaseAble()) {
+            if (name.equals(buyItemName.getName()) && item.isRemain()) {
                 return item;
             }
         }
-        throw new IllegalArgumentException("해당 상품은 구매할 수 없습니다.");
+        throw new NonExistInVendingMachineException();
     }
 
     public Integer getLowestAmount() {
-        Integer lowestAmount = Integer.MAX_VALUE;
-        for (Item item : items) {
-            Integer amount = item.getAmount();
-            lowestAmount = Math.min(lowestAmount, amount);
-        }
-        return lowestAmount;
+        return items.stream()
+                .map(Item::getAmount)
+                .min(Integer::compareTo)
+                .orElse(0);
     }
 
     public boolean isPurchaseAble() {
-        for (Item item : items) {
-            if (item.isPurchaseAble()) {
-                return true;
-            }
-        }
-        return false;
+        return items.stream().anyMatch(Item::isRemain);
     }
 }

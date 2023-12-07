@@ -1,5 +1,6 @@
 package vendingmachine.util;
 
+import java.util.List;
 import vendingmachine.exception.EmptyInputException;
 import vendingmachine.exception.InvalidItemsFormatException;
 import vendingmachine.exception.NonNumericInputException;
@@ -43,6 +44,16 @@ public class InputValidator {
             return true;
         } catch (NumberFormatException e) {
             return false;
+        }
+    }
+
+    public static void validateItemInfoList(List<String> itemInfo) {
+        try {
+            itemInfo.get(0);
+            itemInfo.get(1);
+            itemInfo.get(2);
+        } catch (IndexOutOfBoundsException e) {
+            throw new InvalidItemsFormatException();
         }
     }
 }

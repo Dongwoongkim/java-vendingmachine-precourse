@@ -12,5 +12,16 @@ public enum Coin {
         this.amount = amount;
     }
 
-    // 추가 기능 구현
+    public static Coin get(Integer amount) {
+        for (Coin coin : Coin.values()) {
+            if (coin.getAmount() == amount) {
+                return coin;
+            }
+        }
+        throw new IllegalArgumentException("해당 코인이 존재하지 않습니다.");
+    }
+
+    public int getAmount() {
+        return amount;
+    }
 }

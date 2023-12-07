@@ -14,11 +14,11 @@ public class Items {
     public Item getBuyItem(Name buyItemName) {
         for (Item item : items) {
             String name = item.getName();
-            if (name.equals(buyItemName.getName())) {
+            if (name.equals(buyItemName.getName()) && item.isPurchaseAble()) {
                 return item;
             }
         }
-        throw new IllegalArgumentException("해당 상품이 존재하지 않습니다.");
+        throw new IllegalArgumentException("해당 상품은 구매할 수 없습니다.");
     }
 
     public Integer getLowestAmount() {
@@ -28,5 +28,14 @@ public class Items {
             lowestAmount = Math.min(lowestAmount, amount);
         }
         return lowestAmount;
+    }
+
+    public boolean isPurchaseAble() {
+        for (Item item : items) {
+            if (item.isPurchaseAble()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

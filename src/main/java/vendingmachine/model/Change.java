@@ -2,8 +2,11 @@ package vendingmachine.model;
 
 import java.util.HashMap;
 import java.util.Map;
+import vendingmachine.exception.IndivisibleException;
 
 public class Change {
+
+    private static final Integer MIN_COIN_AMOUNT = 10;
 
     private Map<Coin, Integer> coins;
 
@@ -12,8 +15,18 @@ public class Change {
     }
 
     public static Change create(Integer amount, RandomNumberGenerator randomNumberGenerator) {
-        Map<Coin, Integer> info = randomNumberGenerator.makeChange(amount);
-        return new Change(info);
+        validate(amount);
+        return new Change(randomNumberGenerator.makeChange(amount));
+    }
+
+    private static void validate(Integer amount) {
+        if (!isDivisibleByMinCoin(Integer.valueOf(amount))) {
+            throw new IndivisibleException(MIN_COIN_AMOUNT);
+        }
+    }
+
+    public static boolean isDivisibleByMinCoin(int amount) {
+        return amount % MIN_COIN_AMOUNT == 0;
     }
 
     public Map<Coin, Integer> getCoins() {

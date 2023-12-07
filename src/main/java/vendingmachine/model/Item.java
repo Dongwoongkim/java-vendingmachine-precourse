@@ -14,11 +14,25 @@ public class Item {
         this.name = name;
         this.amount = amount;
         this.quantity = quantity;
-
-        System.out.println(this.name.getName() + " " + this.amount.getAmount() + " " + this.quantity.getQuantity());
     }
 
     public static Item create(String name, String amount, String quantity) {
         return new Item(Name.create(name), Amount.create(amount), Quantity.create(quantity));
+    }
+
+    public boolean isPurchaseAble() {
+        return quantity.getQuantity() > 0;
+    }
+
+    public String getName() {
+        return name.getName();
+    }
+
+    public Integer getAmount() {
+        return amount.getAmount();
+    }
+
+    public void purchase() {
+        quantity.purchase();
     }
 }

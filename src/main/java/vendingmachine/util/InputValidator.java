@@ -30,6 +30,12 @@ public class InputValidator {
         }
     }
 
+    public static void validateBuyItemName(String itemName) {
+        if (itemName.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+    }
+
     private static boolean isNumeric(String money) {
         try {
             Integer.valueOf(money);

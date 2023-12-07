@@ -20,6 +20,13 @@ public class Quantity {
         if (!isNumeric(quantity)) {
             throw new IllegalArgumentException();
         }
+        if (!isOverZero(quantity)) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private static boolean isOverZero(String quantity) {
+        return Integer.valueOf(quantity) > 0;
     }
 
     private static boolean isNumeric(String quantity) {
@@ -29,6 +36,10 @@ public class Quantity {
         } catch (NumberFormatException e) {
             return false;
         }
+    }
+
+    public void purchase() {
+        quantity--;
     }
 
     public Integer getQuantity() {

@@ -6,8 +6,8 @@ public class OutputView {
         System.out.println("자판기가 보유한 동전");
     }
 
-    public void printVendingMachineReceivedMoney() {
-        System.out.println("투입 금액: ");
+    public void printVendingMachineInsertMoney(Integer amount) {
+        System.out.println(String.format("투입 금액: %d원", amount));
     }
 
     public void printVendingMachineHasChange() {
